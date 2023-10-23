@@ -1,0 +1,27 @@
+<head>
+    <meta name="robots" content="noindex">
+</head>
+<body style="background-color: white;">
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.config.js"></script>
+    <script src="/index.js"></script>
+    <script src="/assets/js/cloakcheck.js"></script>
+    <script>
+        window.navigator.serviceWorker.register('/sw.js', {
+            scope: __uv$config.prefix
+        }).then(() => {
+            // Get the link from the URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const link = urlParams.get("link");
+
+            if (link) {
+                // Use the link from the URL parameter
+                location.href = __uv$config.prefix + __uv$config.encodeUrl(link);
+            } else {
+                // If no "url" parameter is provided, redirect to kahoot.it without a proxy
+                location.href = 'https://kahoot.it';
+            }
+        });
+    </script>
+</body>
