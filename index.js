@@ -1,11 +1,12 @@
-import express from "express";
-import http from "node:http";
-import path from "node:path";
-import createBareServer from "@tomphttp/bare-server-node";
+const path = require("node:path");
+const http = require("node:http");
+const { createBareServer } = require("@tomphttp/bare-server-node");
+const express = require("express");
+const fs = require("fs");
 
 const __dirname = process.cwd();
 const server = http.createServer();
-const app = express(server);
+const app = express();
 const bareServer = createBareServer("/bare/");
 
 app.use(express.json());
@@ -15,19 +16,22 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "static"));
+
 app.get('/app', (req, res) => {
-  res.sendFile(path.join(process.cwd(), './static/app.html'));
+  res.sendFile(path.join(__dirname, 'static/app.html'));
 });
+
 app.get('/~', (req, res) => {
-  res.sendFile(path.join(process.cwd(), './static/loader.html'));
+  res.sendFile(path.join(__dirname, 'static/loader.html'));
 });
+
 app.get('/credits', (req, res) => {
-  res.sendFile(path.join(process.cwd(), './static/credits.html'));
+  res.sendFile(path.join(__dirname, 'static/credits.html'));
 });
+
 app.use((req, res) => {
-  res.statusCode = 404;
-  res.sendFile(path.join(process.cwd(), './static/404.html'))
+  res.status(404).sendFile(path.join(__dirname, 'static/404.html'));
 });
 
 server.on("request", (req, res) => {
@@ -47,9 +51,7 @@ server.on("upgrade", (req, socket, head) => {
 });
 
 server.on("listening", () => {
-  console.log(`Doge Unblocker running at port 8080`);
+  console.log(`Doge Unblocker running at port 8000`);
 });
 
-server.listen({
-  port: 8000,
-});
+server.listen(8000);
